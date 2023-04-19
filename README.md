@@ -5,9 +5,18 @@ Inside the "app" folder run the following line to create a local webserver
 ```
 go run .
 ```
-Query the list of hardcoded items with 
+* Query the list of prehardcoded albums with 
 ```
 curl localhost:8080/albums
+```
+
+* Add an album with
+```
+curl http://localhost:8080/albums \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "POST" \
+    --data '{"id": "4","title": "The Modern Sound of Betty Carter","artist": "Betty Carter","price": 49.99}'
 ```
 
 ## Progress
