@@ -5,12 +5,16 @@ Inside the "app" folder run the following line to create a local webserver
 ```
 go run .
 ```
-* Query the list of prehardcoded albums with 
+Query all albums
 ```
 curl localhost:8080/albums
 ```
+Get album by ID
+```
+curl http://localhost:8080/albums/1
+```
 
-* Add an album with
+Add an album with
 ```
 curl http://localhost:8080/albums \
     --include \
