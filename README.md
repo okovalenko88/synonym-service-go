@@ -6,7 +6,8 @@ Inside the "app" folder run the following line to create a local webserver
 go run .
 ```
 
-## Synonyms
+## Endpoints
+### Synonyms
 Query all synonyms
 ```
 curl localhost:8080/synonyms
@@ -20,7 +21,7 @@ curl http://localhost:8080/synonyms \
     --data '{"words": ["pretty", "attractive", "lovely"]}'
 ```
 
-## Albums
+### Albums
 Query all albums
 ```
 curl localhost:8080/albums
