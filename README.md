@@ -3,11 +3,24 @@
 ## Start
 Inside the "app" folder run the following line to create a local webserver
 ```
-
-## REST API
-## Albums
 go run .
 ```
+
+## Synonyms
+Query all synonyms
+```
+curl localhost:8080/synonyms
+```
+Add a synonym set
+```
+curl http://localhost:8080/synonyms \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "POST" \
+    --data '{"words": ["pretty", "attractive", "lovely"]}'
+```
+
+## Albums
 Query all albums
 ```
 curl localhost:8080/albums
@@ -23,20 +36,6 @@ curl http://localhost:8080/albums \
     --header "Content-Type: application/json" \
     --request "POST" \
     --data '{"id": "4","title": "The Modern Sound of Betty Carter","artist": "Betty Carter","price": 49.99}'
-```
-
-## Synonyms
-Query all synonyms
-```
-curl localhost:8080/synonyms
-```
-Add a synonym set
-```
-curl http://localhost:8080/synonyms \
-    --include \
-    --header "Content-Type: application/json" \
-    --request "POST" \
-    --data '{"words": ["pretty", "attractive", "lovely"]}'
 ```
 
 
