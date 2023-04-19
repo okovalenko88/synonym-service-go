@@ -11,7 +11,9 @@ import (
 func Start() {
 	router := gin.Default()
 	router.GET("/albums", getAlbums)
+	router.GET("/synonyms", getSynonyms)
 	router.POST("/albums", postAlbums)
+	router.POST("/synonyms", postSynonyms)
 	router.GET("/albums/:id", getAlbumByID)
 
 	router.Run("localhost:8080")
@@ -31,15 +33,26 @@ type album struct {
 	Price  float64 `json:"price"`
 }
 
+type synonyms struct {
+	Words []string `json:"words"`
+}
+
 var albums = []album{
 	{ID: "1", Title: "Blue Train", Artist: "John Coltrane", Price: 56.99},
 	{ID: "2", Title: "Jeru", Artist: "Gerry Mulligan", Price: 17.99},
 	{ID: "3", Title: "Sarah Vaughan and Clifford Brown", Artist: "Sarah Vaughan", Price: 39.99},
 }
 
+// Store the synonyms in a map
+var synonymsMap = make(map[string][]string)
+
 // getAlbums responds with the list of all albums as JSON.
 func getAlbums(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, albums)
+}
+
+func getSynonyms(c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, synonymsMap)
 }
 
 // postAlbums adds an album from JSON received in the request body.
@@ -55,6 +68,24 @@ func postAlbums(c *gin.Context) {
 	// Add the new album to the slice.
 	albums = append(albums, newAlbum)
 	c.IndentedJSON(http.StatusCreated, newAlbum)
+}
+
+func postSynonyms(c *gin.Context) {
+	var newSynonyms synonyms
+
+	// Call BindJSON to bind the received JSON to
+	// newAlbum.
+	if err := c.BindJSON(&newSynonyms); err != nil {
+		return
+	}
+
+	var words = newSynonyms.Words
+
+	for i, word := range words {
+		var wordsCopy = make([]string, len(words))
+		copy(wordsCopy, words)
+		synonymsMap[word] = append(wordsCopy[0:i], wordsCopy[i+1:]...)
+	}
 }
 
 // getAlbumByID locates the album whose ID value matches the id
