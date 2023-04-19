@@ -8,12 +8,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// func main() {
-// 	router := gin.Default()
-// 	router.GET("/albums", getAlbums)
+func Start() {
+	router := gin.Default()
+	router.GET("/albums", getAlbums)
 
-// 	router.Run("localhost:8080")
-// }
+	router.Run("localhost:8080")
+}
 
 // Hello returns a greeting for the named person.
 func Hello(name string) string {
