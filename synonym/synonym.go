@@ -44,6 +44,16 @@ func postSynonyms(c *gin.Context) {
 
 	var words = newSynonyms.Words
 
+	updateSynonyms(words)
+}
+
+func updateSynonyms(words []string) {
+	key := words[0]
+	_, exists := synonymsMap[words[0]]
+	if exists {
+		words = removeDuplicates(
+			append(words, synonymsMap[key]...))
+	}
 	for i, word := range words {
 		var wordsCopy = make([]string, len(words))
 		copy(wordsCopy, words)
@@ -52,9 +62,22 @@ func postSynonyms(c *gin.Context) {
 	}
 }
 
+func removeDuplicates(lst []string) []string {
+	allKeys := make(map[string]bool)
+	list := []string{}
+	for _, item := range lst {
+		if _, value := allKeys[item]; !value {
+			allKeys[item] = true
+			list = append(list, item)
+		}
+	}
+	return list
+}
+
 func (sm *SafeMap) threadSafeMapInsert(key string, values []string) {
 	sm.mu.Lock()
-	sm.sm[key] = append(sm.sm[key], values...)
+	// sm.sm[key] = append(sm.sm[key], values...)
+	sm.sm[key] = values
 	sm.mu.Unlock()
 }
 
