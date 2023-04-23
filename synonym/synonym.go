@@ -2,6 +2,7 @@ package synonym
 
 import (
 	"fmt"
+	"sync"
 
 	"net/http"
 
@@ -46,6 +47,14 @@ var albums = []album{
 // Store the synonyms in a map
 var synonymsMap = make(map[string][]string)
 
+// SafeCounter is safe to use concurrently.
+type SafeMap struct {
+	mu sync.Mutex
+	sm map[string][]string
+}
+
+var safeSynonymsMap = SafeMap{sm: synonymsMap}
+
 // getAlbums responds with the list of all albums as JSON.
 func getAlbums(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, albums)
@@ -84,8 +93,16 @@ func postSynonyms(c *gin.Context) {
 	for i, word := range words {
 		var wordsCopy = make([]string, len(words))
 		copy(wordsCopy, words)
-		synonymsMap[word] = append(wordsCopy[0:i], wordsCopy[i+1:]...)
+		synonymWords := append(wordsCopy[0:i], wordsCopy[i+1:]...)
+		// synonymsMap[word] = synonymWords
+		safeSynonymsMap.threadSafeMapInsert(word, synonymWords)
 	}
+}
+
+func (sm *SafeMap) threadSafeMapInsert(key string, values []string) {
+	sm.mu.Lock()
+	sm.sm[key] = append(sm.sm[key], values...)
+	sm.mu.Unlock()
 }
 
 // getAlbumByID locates the album whose ID value matches the id
