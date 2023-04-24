@@ -21,6 +21,20 @@ func Start() {
 	router.Run("localhost:8080")
 }
 
+// Data structures
+type synonymsPost struct {
+	Words []string `json:"words"`
+}
+
+var synonymsMap = make(map[string][]string)
+
+type SafeMap struct {
+	mu sync.Mutex
+	sm map[string][]string
+}
+
+var safeSynonymsMap = SafeMap{sm: synonymsMap}
+
 // Handlers
 func getSynonyms(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, synonymsMap)
@@ -46,25 +60,11 @@ func postSynonyms(c *gin.Context) {
 
 	var words = newSynonyms.Words
 
-	updateSynonyms(words)
+	updateSynonyms(&safeSynonymsMap, words)
 }
-
-// Data structures
-type synonymsPost struct {
-	Words []string `json:"words"`
-}
-
-var synonymsMap = make(map[string][]string)
-
-type SafeMap struct {
-	mu sync.Mutex
-	sm map[string][]string
-}
-
-var safeSynonymsMap = SafeMap{sm: synonymsMap}
 
 // Functionality
-func updateSynonyms(words []string) {
+func updateSynonyms(sm *SafeMap, words []string) {
 	key := words[0]
 	_, exists := synonymsMap[words[0]]
 	if exists {
@@ -75,7 +75,7 @@ func updateSynonyms(words []string) {
 		var wordsCopy = make([]string, len(words))
 		copy(wordsCopy, words)
 		synonymWords := append(wordsCopy[0:i], wordsCopy[i+1:]...)
-		safeSynonymsMap.safeMapInsert(word, synonymWords)
+		sm.safeMapInsert(word, synonymWords)
 	}
 }
 
