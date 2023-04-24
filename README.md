@@ -7,7 +7,8 @@ Your implementation should fulfil the following requirements:
 * A word may have multiple synonyms, and all should be returned at a user request.
 * The solution needs to support concurrent requests in a thread-safe way.
 * Make the solution with simple data structures in memory - no persistence/database needed.
-* Transitive rule. For example, if “A” is added as a synonym for “B”, and “B” is added as a synonym for “C”, then searching the word “C” should return both “B” and “A”.
+
+**Bonus***: Transitive rule. For example, if “A” is added as a synonym for “B”, and “B” is added as a synonym for “C”, then searching the word “C” should return both “B” and “A”.
 
 ## Start
 ```
