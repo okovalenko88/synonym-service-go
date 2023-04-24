@@ -27,7 +27,7 @@ curl http://localhost:8080/synonyms \
     --include \
     --header "Content-Type: application/json" \
     --request "POST" \
-    --data '{"words": ["pretty", "attractive", "lovely"]}'
+    --data '{"words": ["a", "b", "c"]}'
 ```
 
 ## Testing
