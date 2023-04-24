@@ -60,11 +60,11 @@ func postSynonyms(c *gin.Context) {
 
 	var words = newSynonyms.Words
 
-	updateSynonyms(&safeSynonymsMap, words)
+	safeSynonymsMap.updateSynonyms(words)
 }
 
 // Functionality
-func updateSynonyms(sm *SafeMap, words []string) {
+func (sm *SafeMap) updateSynonyms(words []string) {
 	key := words[0]
 	_, exists := synonymsMap[words[0]]
 	if exists {
