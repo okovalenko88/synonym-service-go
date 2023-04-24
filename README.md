@@ -1,13 +1,12 @@
 # synonym-service-go
 
 ## Start
-Inside the "app" folder run the following line to create a local webserver
 ```
+cd app
 go run .
 ```
 
 ## Endpoints
-### Synonyms
 Query all synonyms
 ```
 curl localhost:8080/synonyms
@@ -21,27 +20,12 @@ curl http://localhost:8080/synonyms \
     --data '{"words": ["pretty", "attractive", "lovely"]}'
 ```
 
-### Albums
-Query all albums
+## Testing
 ```
-curl localhost:8080/albums
-```
-Get album by ID
-```
-curl http://localhost:8080/albums/1
-```
-Add an album
-```
-curl http://localhost:8080/albums \
-    --include \
-    --header "Content-Type: application/json" \
-    --request "POST" \
-    --data '{"id": "4","title": "The Modern Sound of Betty Carter","artist": "Betty Carter","price": 49.99}'
+cd synonym
+go test -v
 ```
 
-
-## Progress
-* Basic http handler
 
 ## Goal
 The complete system should act as a thesaurus - it should enable users to store and fetch sets of synonyms. Please also consider testability, readability, algorithmic complexity, and maintainability!
