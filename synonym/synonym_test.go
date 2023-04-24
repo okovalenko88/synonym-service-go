@@ -1,4 +1,4 @@
-package synonym
+package main
 
 import (
 	"reflect"

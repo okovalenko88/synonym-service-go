@@ -12,7 +12,7 @@ Your implementation should fulfil the following requirements:
 
 ## Start
 ```
-cd app
+cd synonym
 go run .
 ```
 

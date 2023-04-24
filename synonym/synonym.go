@@ -1,4 +1,4 @@
-package synonym
+package main
 
 import (
 	"sync"
@@ -7,6 +7,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
+
+func main() {
+	Start()
+}
 
 func Start() {
 	router := gin.Default()
