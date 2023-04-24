@@ -27,3 +27,13 @@ func TestUpdateSynonyms(t *testing.T) {
 		t.Errorf("Second UpdateSynonyms failed")
 	}
 }
+
+func TestClearMap(t *testing.T) {
+	key := "a"
+	safeSynonymsMap.sm[key] = []string{"b"}
+	safeSynonymsMap.clear()
+	_, exists := safeSynonymsMap.sm[key]
+	if exists {
+		t.Errorf("Method Clear of a Safe Map failed")
+	}
+}

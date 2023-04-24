@@ -79,6 +79,12 @@ func (sm *SafeMap) updateSynonyms(words []string) {
 	}
 }
 
+func (sm *SafeMap) clear() {
+	for k := range sm.sm {
+		delete(sm.sm, k)
+	}
+}
+
 func removeDuplicates(lst []string) []string {
 	allKeys := make(map[string]bool)
 	list := []string{}
