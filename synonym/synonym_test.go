@@ -1,9 +1,20 @@
 package main
 
 import (
+	"os"
 	"reflect"
 	"testing"
 )
+
+func TestMain(m *testing.M) {
+	setup()
+	code := m.Run()
+	os.Exit(code)
+}
+
+func setup() {
+	safeSynonymsMap.clear()
+}
 
 func TestRemoveDuplicates(t *testing.T) {
 	// test removeDuplicates
